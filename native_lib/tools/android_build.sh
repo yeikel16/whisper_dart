@@ -58,11 +58,11 @@ make -j8
 cd ..
 
 if [ "$1" = "x86" ]; then
-  mv "build_android_x86/wisper/libwisper.so" "libwisper_android_x86.so"
+  mv "build_android_x86/libwisper.so" "libwisper_android_x86.so"
 elif [ "$1" = "x64" ]; then
-  mv "build_android_x86_64/wisper/libwisper.so" "libwisper_android_x64.so"
+  mv "build_android_x86_64/libwisper.so" "libwisper_android_x64.so"
 elif [ "$1" = "armv7" ]; then
-  mv "build_android_armv7/wisper/libwisper.so" "libwisper_android_armv7.so"
+  mv "build_android_armv7/libwisper.so" "libwisper_android_armv7.so"
 else
-  mv "build_android_arm64/wisper/libwisper.so" "libwisper_android_arm64.so"
+  mv "build_android_arm64/libwisper.so" "libwisper_android_arm64.so"
 fi
