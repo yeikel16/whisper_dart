@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if ! command -v ios-cmake &> /dev/null
+then
+    echo "ios-cmake not found. Installing..."
+    brew install ios-cmake
+fi
+
+
 mkdir -p build_ios
 cd build_ios
 cmake .. \
