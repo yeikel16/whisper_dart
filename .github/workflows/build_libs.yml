@@ -15,7 +15,7 @@ jobs:
         include:
           - os: ubuntu-latest
             artifact_name: libwhisper_android_arm64.so
-            script: build_android.sh armv64
+            script: build_android.sh arm64
           # - os: ubuntu-latest
           #   artifact_name: libwhisper_android_armv7.so
           #   script: build_android.sh armv7

@@ -53,7 +53,7 @@ cmake .. \
   -DANDROID_PLATFORM=$ANDROID_PLATFORM \
   -DANDROID_STL=$ANDROID_STL \
   -DCMAKE_BUILD_TYPE=Release \
-  -DWHISPER_android_build=ON
+  -DWHISPER_BUILD_ANDROID=ON
 make -j8
 cd ..
 
