@@ -17,7 +17,11 @@ jobs:
 
       - name: Build libs
         run: |
-          cd native_lib
+          cd native_lib/
+          echo "Building for Linux"
+          echo "=================="
+          git submodule update --init --recursive
+          git submodule update --reabse --remote
           bash tools/android_build.sh arm64
 
       - name: Upload artifacts
