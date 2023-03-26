@@ -1,35 +1,17 @@
 #!/bin/bash
 
-if ! command -v ios-cmake &> /dev/null
-then
-    echo "ios-cmake not found. Installing..."
-    brew install ios-cmake
-fi
+# Navigate to the project directory
+cd whisper_library
 
+# Make sure that all of the submodules are up-to-date
+git submodule update --init --recursive
 
-mkdir -p build_ios
-cd build_ios
-cmake .. \
-  -GXcode \
-  -DCMAKE_TOOLCHAIN_FILE="$HOME/ios-cmake/toolchain/iOS.cmake" \
-  -DIOS_PLATFORM=OS \
-  -DENABLE_ARC=1 \
-  -DENABLE_BITCODE=0 \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DWHISPER_BUILD_IOS=ON
-cmake --build . --config Release --target whisper -- -quiet
-cd ..
+# Create a build directory
+mkdir -p build/ios
+cd build/ios
 
-mkdir -p build_ios_framework
-cd build_ios_framework
-cmake .. \
-  -GXcode \
-  -DCMAKE_TOOLCHAIN_FILE="$HOME/ios-cmake/toolchain/iOS.cmake" \
-  -DIOS_PLATFORM=OS \
-  -DENABLE_ARC=1 \
-  -DENABLE_BITCODE=0 \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DWHISPER_BUILD_IOS=ON \
-  -DWHISPER_BUILD_IOS_FRAMEWORK=ON
-cmake --build . --config Release --target whisper_framework -- -quiet
-cd ..
+# Use cmake to generate the Xcode project
+cmake ../.. -DCMAKE_TOOLCHAIN_FILE=../../ios-cmake/toolchain/iOS.cmake -DIOS_PLATFORM=SIMULATOR64 -GXcode
+
+# Build the project using xcodebuild
+xcodebuild build -project whisper_library.xcodeproj -configuration Release -scheme whisper_library -destination 'platform=iOS Simulator,name=iPhone 11'
