@@ -45,8 +45,8 @@ else
   export CXX=$COMPILER_DIR/aarch64-linux-android21-clang++
 fi
 
-mkdir -p android_build_$1
-cd android_build_$1
+mkdir -p build_android_$1
+cd build_android_$1
 cmake .. \
   -DCMAKE_TOOLCHAIN_FILE=$CMAKE_TOOLCHAIN_FILE \
   -DANDROID_ABI=$ANDROID_ABI \
@@ -59,11 +59,11 @@ cd ..
 
 
 if [ "$1" = "x86" ]; then
-  mv "android_build_x86/libwhisper.so" "libwhisper_android_x86.so"
+  mv "build_android_x86/libwhisper.so" "libwhisper_android_x86.so"
 elif [ "$1" = "x64" ]; then
-  mv "android_build_x86_64/libwhisper.so" "libwhisper_android_x64.so"
+  mv "build_android_x86_64/libwhisper.so" "libwhisper_android_x64.so"
 elif [ "$1" = "armv7" ]; then
-  mv "android_build_armv7/libwhisper.so" "libwhisper_android_armv7.so"
+  mv "build_android_armv7/libwhisper.so" "libwhisper_android_armv7.so"
 else
-  mv "android_build_arm64/libwhisper.so" "libwhisper_android_arm64.so"
+  mv "build_android_arm64/libwhisper.so" "libwhisper_android_arm64.so"
 fi
