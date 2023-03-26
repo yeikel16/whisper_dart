@@ -24,28 +24,20 @@ endif (WIN32)
 target_compile_definitions(whisper PUBLIC DART_SHARED_LIB)
 target_link_libraries(whisper PRIVATE whisper_lib ggml ${CMAKE_THREAD_LIBS_INIT})
 
-if(IOS_PLATFORM)
-set(CMAKE_OSX_DEPLOYMENT_TARGET "11.0" CACHE STRING "Minimum OS X deployment version")
-set(IOS_DEPLOYMENT_TARGET "11.0" CACHE STRING "Minimum iOS deployment version")
-
-
-set(CMAKE_SYSTEM_NAME Darwin)
-set(CMAKE_SYSTEM_VERSION ${IOS_DEPLOYMENT_TARGET})
-
-set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
-
-set(CMAKE_C_COMPILER "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang")
-set(CMAKE_CXX_COMPILER "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++")
-
-set(IOS_SDK_ROOT "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk")
-
-set(CMAKE_CXX_FLAGS "-fembed-bitcode -stdlib=libc++ -std=c++14 -Wall")
-
-add_library(whisper STATIC whisper.cpp)
-
-include_directories("${IOS_SDK_ROOT}/usr/include")
-link_directories("${IOS_SDK_ROOT}/usr/lib")
-
-target_link_libraries(whisper "-framework Foundation" "-framework CoreFoundation" "-framework CoreAudio" "-framework AudioToolbox" "-framework AVFoundation" "-framework Accelerate" "-framework Security")
-
+if(APPLE)
+  target_compile_options(whisper PRIVATE -stdlib=libc++)
+  target_link_libraries(whisper PRIVATE "-framework Foundation" "-framework CoreFoundation" "-framework Security")
+  if(IOS)
+    set_target_properties(whisper PROPERTIES
+      XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
+      XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET "11.0"
+    )
+  elseif(CMAKE_SYSTEM_NAME MATCHES "Darwin")
+    set_target_properties(whisper PROPERTIES
+      MACOSX_RPATH ON
+      MACOSX_BUNDLE TRUE
+      MACOSX_FRAMEWORK_IDENTIFIER "com.example.whisper"
+      MACOSX_DEPLOYMENT_TARGET "11.0"
+    )
+  endif()
 endif()

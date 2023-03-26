@@ -1,14 +1,22 @@
-export MACOSX_DEPLOYMENT_TARGET=11
+#!/bin/bash
 
-# Create build directory
-mkdir build_macos && cd build_macos
+mkdir -p build_macos
+cd build_macos
+cmake .. \
+  -GXcode \
+  -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DWHISPER_BUILD_MACOS=ON
+cmake --build . --config Release --target whisper -- -quiet
+cd ..
 
-# Generate CMake files
-cmake -DCMAKE_BUILD_TYPE=Release ..
-
-# Build for aarch64 and x86_64 architectures
-cmake --build . --config Release --target wisper_aarch64
-cmake --build . --config Release --target wisper_x86_64
-
-# Combine the resulting libraries into a universal binary
-lipo "wisper_aarch64/libwisper.dylib" "wisper_x86_64/libwisper.dylib" -output "libwisper_macos.dylib" -create
+mkdir -p build_macos_framework
+cd build_macos_framework
+cmake .. \
+  -GXcode \
+  -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DWHISPER_BUILD_MACOS=ON \
+  -DWHISPER_BUILD_MACOS_FRAMEWORK=ON
+cmake --build . --config Release --target whisper_framework -- -quiet
+cd ..

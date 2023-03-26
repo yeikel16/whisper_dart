@@ -1,24 +1,28 @@
-export IPHONEOS_DEPLOYMENT_TARGET=11.0
+#!/bin/bash
 
-# Create a build directory and navigate to it
 mkdir -p build_ios
 cd build_ios
+cmake .. \
+  -GXcode \
+  -DCMAKE_TOOLCHAIN_FILE="$HOME/ios-cmake/toolchain/iOS.cmake" \
+  -DIOS_PLATFORM=OS \
+  -DENABLE_ARC=1 \
+  -DENABLE_BITCODE=0 \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DWHISPER_BUILD_IOS=ON
+cmake --build . --config Release --target whisper -- -quiet
+cd ..
 
-# Configure CMake with the desired architecture and deployment target
-cmake .. -GXcode \
-  -DCMAKE_TOOLCHAIN_FILE=../cmake/ios.toolchain.cmake \
-  -DPLATFORM=OS64 \
-  -DENABLE_BITCODE=FALSE \
-  -DIPHONEOS_DEPLOYMENT_TARGET=${IPHONEOS_DEPLOYMENT_TARGET}
-
-# Build the Xcode project
-xcodebuild -project Whisper.xcodeproj -configuration Release -scheme Whisper -destination 'generic/platform=iOS' build
-
-# Create the xcframework
-xcodebuild -create-xcframework \
-  -library build/Release-iphoneos/libWhisper.a \
-  -library build/Release-iphonesimulator/libWhisper.a \
-  -output Whisper.xcframework
-
-# Zip the xcframework
-zip -r whisper_ios.xcframework.zip Whisper.xcframework
+mkdir -p build_ios_framework
+cd build_ios_framework
+cmake .. \
+  -GXcode \
+  -DCMAKE_TOOLCHAIN_FILE="$HOME/ios-cmake/toolchain/iOS.cmake" \
+  -DIOS_PLATFORM=OS \
+  -DENABLE_ARC=1 \
+  -DENABLE_BITCODE=0 \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DWHISPER_BUILD_IOS=ON \
+  -DWHISPER_BUILD_IOS_FRAMEWORK=ON
+cmake --build . --config Release --target whisper_framework -- -quiet
+cd ..
