@@ -56,7 +56,7 @@ jobs:
           bash tools/${{ matrix.script }}
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: ${{ matrix.artifact_name }}
           path: native_lib/${{ matrix.artifact_name }}
