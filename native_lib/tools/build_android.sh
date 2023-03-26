@@ -45,30 +45,25 @@ else
   export CXX=$COMPILER_DIR/aarch64-linux-android21-clang++
 fi
 
-mkdir -p build_android_$1
-cd build_android_$1
+mkdir -p android_build_$1
+cd android_build_$1
 cmake .. \
   -DCMAKE_TOOLCHAIN_FILE=$CMAKE_TOOLCHAIN_FILE \
   -DANDROID_ABI=$ANDROID_ABI \
   -DANDROID_PLATFORM=$ANDROID_PLATFORM \
   -DANDROID_STL=$ANDROID_STL \
   -DCMAKE_BUILD_TYPE=Release \
-  -DWHISPER_BUILD_ANDROID=ON
+  -DWHISPER_android_build=ON
 make -j8
 cd ..
 
 
-mv "build_android_arm64/libwhisper.so" "libwhisper_android_arm64.so"
-rm "build_android_$1/*"
-mv "build_android_$1.so build_android_$1/build_android_$1.so" 
-
-# if [ "$1" = "x86" ]; then
-#   mv "build_android_x86/libwhisper.so" "libwhisper_android_x86.so"
-# elif [ "$1" = "x64" ]; then
-#   mv "build_android_x86_64/libwhisper.so" "libwhisper_android_x64.so"
-# elif [ "$1" = "armv7" ]; then
-#   mv "build_android_armv7/libwhisper.so" "libwhisper_android_armv7.so"
-# else
-#   mv "build_android_arm64/libwhisper.so" "libwhisper_android_arm64.so"
-#   rm "build_android_$1/*"
-# fi
+if [ "$1" = "x86" ]; then
+  mv "android_build_x86/libwhisper.so" "libwhisper_android_x86.so"
+elif [ "$1" = "x64" ]; then
+  mv "android_build_x86_64/libwhisper.so" "libwhisper_android_x64.so"
+elif [ "$1" = "armv7" ]; then
+  mv "android_build_armv7/libwhisper.so" "libwhisper_android_armv7.so"
+else
+  mv "android_build_arm64/libwhisper.so" "libwhisper_android_arm64.so"
+fi
