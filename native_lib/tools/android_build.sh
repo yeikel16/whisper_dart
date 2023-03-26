@@ -58,7 +58,8 @@ make -j8
 cd ..
 
 pwd
-ls
+ls build_android_$1
+chmod -R +w build_android_$1
 
 if [ "$1" = "x86" ]; then
   mv "build_android_x86/libwisper.so" "libwisper_android_x86.so"
