@@ -16,7 +16,9 @@ jobs:
         run: sudo apt-get -y install cmake
 
       - name: Build libs
-        run: bash tools/android_build.sh
+        run: |
+          cd native_lib
+          bash tools/android_build.sh arm64
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
