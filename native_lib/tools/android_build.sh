@@ -53,20 +53,16 @@ cmake .. \
   -DANDROID_PLATFORM=$ANDROID_PLATFORM \
   -DANDROID_STL=$ANDROID_STL \
   -DCMAKE_BUILD_TYPE=Release \
-  -DWISPER_BUILD_ANDROID=ON
+  -DWHISPER_BUILD_ANDROID=ON
 make -j8
 cd ..
 
-pwd
-ls build_android_$1
-chmod -R +w build_android_$1
-
 if [ "$1" = "x86" ]; then
-  mv "build_android_x86/libwisper.so" "libwisper_android_x86.so"
+  mv "build_android_x86/libwhisper.so" "libwhisper_android_x86.so"
 elif [ "$1" = "x64" ]; then
-  mv "build_android_x86_64/libwisper.so" "libwisper_android_x64.so"
+  mv "build_android_x86_64/libwhisper.so" "libwhisper_android_x64.so"
 elif [ "$1" = "armv7" ]; then
-  mv "build_android_armv7/libwisper.so" "libwisper_android_armv7.so"
+  mv "build_android_armv7/libwhisper.so" "libwhisper_android_armv7.so"
 else
-  mv "build_android_arm64/libwisper.so" "libwisper_android_arm64.so"
+  mv "build_android_arm64/libwhisper.so" "libwhisper_android_arm64.so"
 fi
