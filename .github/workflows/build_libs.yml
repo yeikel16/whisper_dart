@@ -27,4 +27,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: libs
-          path: build_android_arm64/wisper/
+          path: build_android_arm64/
