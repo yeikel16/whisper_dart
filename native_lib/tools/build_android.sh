@@ -61,7 +61,7 @@ cd ..
 if [ "$1" = "x86" ]; then
   mv "build_android_x86/libwhisper.so" "libwhisper_android_x86.so"
 elif [ "$1" = "x64" ]; then
-  mv "build_android_x86_64/libwhisper.so" "libwhisper_android_x64.so"
+  mv "build_android_x64/libwhisper.so" "libwhisper_android_x64.so"
 elif [ "$1" = "armv7" ]; then
   mv "build_android_armv7/libwhisper.so" "libwhisper_android_armv7.so"
 else
