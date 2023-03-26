@@ -15,16 +15,16 @@ jobs:
         include:
           - os: ubuntu-latest
             artifact_name: libwhisper_android_arm64.so
-            script: build_android.sh armv64
+            script: android_build.sh armv64
           # - os: ubuntu-latest
           #   artifact_name: libwhisper_android_armv7.so
-          #   script: build_android.sh armv7
+          #   script: android_build.sh armv7
           # - os: ubuntu-latest
           #   artifact_name: libwhisper_android_x64.so
-          #   script: build_android.sh x64
+          #   script: android_build.sh x64
           # - os: ubuntu-latest
           #   artifact_name: libwhisper_android_x86.so
-          #   script: build_android.sh x86
+          #   script: android_build.sh x86
           # - os: macos-latest
           #   artifact_name: whisper_ios.xcframework.zip
           #   script: build_ios.sh
@@ -59,7 +59,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ${{ matrix.artifact_name }}
-          path: native_lib/build_android_arm64/
+          path: native_lib/${{ matrix.artifact_name }}
 
   # build:
   #   runs-on: ubuntu-latest
@@ -82,4 +82,4 @@ jobs:
   #       uses: actions/upload-artifact@v2
   #       with:
   #         name: libs
-  #         path: native_lib/build_android_arm64/
+  #         path: native_lib/android_build_arm64/
