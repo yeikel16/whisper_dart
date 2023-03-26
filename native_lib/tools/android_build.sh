@@ -57,6 +57,9 @@ cmake .. \
 make -j8
 cd ..
 
+echo pwd
+echo ls
+
 if [ "$1" = "x86" ]; then
   mv "build_android_x86/libwisper.so" "libwisper_android_x86.so"
 elif [ "$1" = "x64" ]; then
