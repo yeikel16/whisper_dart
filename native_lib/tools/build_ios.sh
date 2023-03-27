@@ -1,17 +1,28 @@
 #!/bin/bash
 
-# Navigate to the project directory
-cd whisper_library
+set -e
 
-# Make sure that all of the submodules are up-to-date
-git submodule update --init --recursive
+# Install ios-cmake if it's not already installed
+if ! command -v ios-cmake &> /dev/null
+then
+    echo "ios-cmake could not be found. Installing..."
+    brew install ios-cmake
+fi
 
-# Create a build directory
-mkdir -p build/ios
-cd build/ios
+# Set up build directories
+rm -rf build_ios
+mkdir build_ios
+cd build_ios
 
-# Use cmake to generate the Xcode project
-cmake ../.. -DCMAKE_TOOLCHAIN_FILE=../../ios-cmake/toolchain/iOS.cmake -DIOS_PLATFORM=SIMULATOR64 -GXcode
+# Configure CMake
+cmake .. \
+  -DCMAKE_TOOLCHAIN_FILE=../ios-cmake/toolchain/iOS.cmake \
+  -DIOS_PLATFORM=OS \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DWHISPER_BUILD_IOS=ON
 
-# Build the project using xcodebuild
-xcodebuild build -project whisper_library.xcodeproj -configuration Release -scheme whisper_library -destination 'platform=iOS'
+# Build the project
+cmake --build . --config Release
+
+# Copy the built library to the project directory
+cp Release-iphoneos/libwhisper.a ../whisper_library.xcodeproj/libwhisper_ios.a
